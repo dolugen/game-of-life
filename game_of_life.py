@@ -70,30 +70,22 @@ def find_neighbors(world: tuple, cell_pos: tuple) -> int:
     '''Return the number of alive neighbors'''
     neighbors = []
     row, cell = cell_pos
-    if row > 0:
-        top = world[row-1][cell]
-        neighbors.append(top)
-    if row < (len(world)-1):
-        bottom = world[row+1][cell]
-        neighbors.append(bottom)
-    if cell > 0:
-        left = world[row][cell-1]
-        neighbors.append(left)
-    if cell < (len(world[row])-1):
-        right = world[row][cell+1]
-        neighbors.append(right)
-    if row > 0 and cell > 0:
-        top_left = world[row-1][cell-1]
-        neighbors.append(top_left)
-    if row > 0 and cell < (len(world[row])-1):
-        top_right = world[row-1][cell+1]
-        neighbors.append(top_right)
-    if row < (len(world)-1) and cell > 0:
-        bottom_left = world[row+1][cell-1]
-        neighbors.append(bottom_left)
-    if row < (len(world)-1) and cell < (len(world[row])-1):
-        bottom_right = world[row+1][cell+1]
-        neighbors.append(bottom_right)
+    top = world[row-1][cell]
+    neighbors.append(top)
+    bottom = world[(row + 1) % len(world)][cell]
+    neighbors.append(bottom)
+    left = world[row][cell-1]
+    neighbors.append(left)
+    right = world[row][(cell + 1) % len(world[row])]
+    neighbors.append(right)
+    top_left = world[row-1][cell-1]
+    neighbors.append(top_left)
+    top_right = world[row-1][(cell + 1) % len(world[row])]
+    neighbors.append(top_right)
+    bottom_left = world[(row + 1) % len(world)][cell-1]
+    neighbors.append(bottom_left)
+    bottom_right = world[(row + 1) % len(world)][(cell + 1) % len(world[row])]
+    neighbors.append(bottom_right)
     # print(cell_pos, neighbors)
     return sum(neighbors)
 
@@ -162,7 +154,7 @@ if __name__ == "__main__":
             rules_for_dead,
             debug=False)
 
-    life(units.PULSAR, pause_time=0.1)
-    # life(units.GLIDER, 30, 0.1)
+    # life(units.PULSAR, pause_time=0.1)
+    life(units.GLIDER, 100, 0.08)
 
     print('OK.')

@@ -58,4 +58,4 @@ def test_find_neighbors2():
     )
     assert find_neighbors(world, (0, 0)) == 6
     assert find_neighbors(world, (1, 0)) == 3
-    assert find_neighbors(world, (3, 4)) == 3
+    assert find_neighbors(world, (3, 4)) == 2
