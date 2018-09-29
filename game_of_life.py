@@ -144,18 +144,6 @@ def life(state: tuple, generations: int=50, pause_time: float=0.5) -> tuple:
 
 
 if __name__ == "__main__":
-    assert rule_underpopulation(True, 0) is False
-    assert rule_underpopulation(True, 1) is False
-    assert rule_underpopulation(True, 2) is True
-    assert rule_survive(True, 1) is False
-    assert rule_survive(True, 2) is True
-    assert rule_survive(True, 3) is True
-    assert rule_overpopulation(True, 3) is True
-    assert rule_overpopulation(True, 4) is False
-    assert rule_reproduction(False, 0) is False
-    assert rule_reproduction(False, 1) is False
-    assert rule_reproduction(False, 2) is False
-    assert rule_reproduction(False, 3) is True
 
     rules_for_alive = (
         rule_underpopulation,
