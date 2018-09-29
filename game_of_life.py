@@ -1,3 +1,9 @@
+import os
+import time
+
+import units
+
+
 def rule_god(cell: bool, neighbors: int) -> bool:
     """
     godmode
@@ -49,6 +55,7 @@ def rule_reproduction(cell: bool, neighbors: int) -> bool:
 
 def apply_rules(state: bool, neighbors: int, rules_for_alive: tuple,
                 rules_for_dead: tuple, debug: bool = False) -> bool:
+    '''Apply rules on the cell'''
     next_state = state
     if state:
         next_state = all(rule(state, neighbors) for rule in rules_for_alive)
@@ -92,8 +99,7 @@ def find_neighbors(world: tuple, cell_pos: tuple) -> int:
 
 
 def change_world(world_state: tuple) -> tuple:
-    # for row in world_state:
-    # print(row)
+    '''Return the next state of the world'''
     new_world = []
     for i, row in enumerate(world_state):
         new_row = []
@@ -109,21 +115,32 @@ def change_world(world_state: tuple) -> tuple:
             # cell_state, neighbors, '->', int(cell_state_new))
             new_row.append(int(cell_state_new))
         new_world.append(tuple(new_row))
-    # for row in new_world:
-        # print(row)
     return tuple(new_world)
 
 
 def repr_cell(cell: bool) -> str:
-    return 'o' if cell else '-'
+    '''Return a representation of a cell'''
+    return '@' if cell else '_'
 
 
-def repr_world(world: list) -> str:
+def repr_world(world: tuple) -> str:
+    '''Return a representation of a world'''
     world_repr = ''
     for row in world:
         world_repr += ''.join([repr_cell(cell) for cell in row])
         world_repr += '\n'
     return world_repr
+
+
+def life(state: tuple, generations: int=50, pause_time: float=0.5) -> tuple:
+    '''Update screen with the state of the world in each generation'''
+    for gen_number in range(generations+1):
+        os.system('clear')
+        print(f'Gen: {gen_number}')
+        print(repr_world(state))
+        state = change_world(state)
+        time.sleep(pause_time)
+    return state
 
 
 if __name__ == "__main__":
@@ -157,32 +174,7 @@ if __name__ == "__main__":
             rules_for_dead,
             debug=False)
 
-    world_initial = (
-        (0, 1, 1),
-        (1, 1, 0),
-        (0, 1, 0),
-    )
+    life(units.PULSAR, pause_time=0.1)
+    # life(units.GLIDER, 30, 0.1)
 
-    world_actual = change_world(world_initial)
-    world_expected = (
-        (1, 1, 1),
-        (1, 0, 0),
-        (1, 1, 0)
-    )
-    import os
-    import time
-    os.system('clear')
-    print(repr_world(world_initial))
-
-    time.sleep(2)
-    os.system('clear')
-
-    print(repr_world(world_actual))
-
-    time.sleep(2)
-    os.system('clear')
-
-    print(repr_world(change_world(world_actual)))
-
-    assert world_actual == world_expected
     print('OK.')
