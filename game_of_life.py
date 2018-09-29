@@ -1,4 +1,5 @@
 import os
+import csv
 import time
 
 import units
@@ -135,26 +136,17 @@ def life(state: tuple, generations: int=50, pause_time: float=0.5) -> tuple:
     return state
 
 
+def load_map(map_file) -> tuple:
+    map = []
+    for row in csv.reader(map_file):
+        map.append(tuple([int(cell) for cell in row]))
+    return tuple(map)
+
+
 if __name__ == "__main__":
 
-    rules_for_alive = (
-        rule_underpopulation,
-        rule_survive,
-        rule_overpopulation,
-    )
-
-    rules_for_dead = (rule_reproduction,)
-
-    for neighbors in range(1, 5):
-        state = False
-        next_state = apply_rules(
-            state,
-            neighbors,
-            rules_for_alive,
-            rules_for_dead,
-            debug=False)
-
-    # life(units.PULSAR, pause_time=0.1)
-    life(units.GLIDER, 100, 0.08)
+    with open('tiled/gosper-gun-wide.csv') as map_file:
+        map = load_map(map_file)
+        life(map, 500, 0.1)
 
     print('OK.')
