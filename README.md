@@ -2,7 +2,7 @@
 
 A demo of Game in the terminal.
 
-It looks like this:
+It looks like this (but in motion):
 ```
 Gen: 37
 ______________________________________________________________________
